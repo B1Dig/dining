@@ -1,0 +1,83 @@
+{
+    "menu": {
+      "hot": [
+        {
+          "id": 6,
+          "name": "Club Sandwich",
+          "description": "Triple-layer sandwich with turkey, bacon, lettuce, tomato, and mayo.",
+          "price": 9.49,
+          
+          "image": "images/club_sandwich.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Margherita Pizza",
+          "description": "Fresh mozzarella, basil, and tomato sauce on a crispy thin crust.",
+          "price": 12.50,
+          
+          "image": "images/margherita.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Caesar Salad",
+          "description": "Crisp romaine lettuce with Caesar dressing, croutons, and parmesan cheese.",
+          "price": 7.25,
+          
+          "image": "images/caesar_salad.jpg"
+        },
+        {
+          "id": 4,
+          "name": "Grilled Salmon",
+          "description": "Fresh salmon fillet grilled to perfection, served with vegetables.",
+          "price": 15.75,
+          
+          "image": "images/salmon.jpg"
+        },
+        {
+          "id": 1,
+          "name": "Chicken Sandwich",
+          "description": "Grilled chicken breast with lettuce, tomato, and mayo on a toasted bun.",
+          "price": 7.99,
+          "image": "images/chicken_sandwich.jpg"
+        },
+        {
+          "id": 5,
+          "name": "Steak Sandwich",
+          "description": "Sliced steak with onions, peppers, and melted cheese on a hoagie roll.",
+          "price": 10.99,
+          "image": "images/steak_sandwich.jpg"
+        }
+      ],
+      "cold": [
+        {
+          "id": 2,
+          "name": "Club Sandwich",
+          "description": "Triple-layer sandwich with turkey, bacon, lettuce, tomato, and mayo.",
+          "price": 9.49,
+          "image": "images/club_sandwich.jpg"
+        },
+        {
+          "id": 3,
+          "name": "BLT Sandwich",
+          "description": "Crispy bacon, fresh lettuce, and tomato with mayo on toasted bread.",
+          "price": 6.75,
+          "image": "images/blt.jpg"
+        },
+        {
+          "id": 9,
+          "name": "Steak Sandwich",
+          "description": "Sliced steak with onions, peppers, and melted cheese on a hoagie roll.",
+          "price": 10.99,
+          
+          "image": "images/steak_sandwich.jpg"
+        },
+        {
+          "id": 4,
+          "name": "Veggie Sandwich",
+          "description": "Grilled vegetables, avocado, lettuce, and hummus on whole grain bread.",
+          "price": 7.25,
+          "image": "images/veggie_sandwich.jpg"
+        }
+      ]
+    }
+  }

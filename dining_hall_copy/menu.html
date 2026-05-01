@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Menu Board</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      background-image: url('/images/background1.avif');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    .slideshow {
+     
+      background-image: url('/images/background2.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 65%;
+      position: relative;
+      
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+
+    .slide {
+      position: absolute;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 600px;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .slide img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    }
+
+    .slide h2 { margin: 10px 0 5px; }
+    .slide p  { margin: 5px; }
+
+    .menu {
+      background-image: url('/images/background1.avif');
+      background-size: cover;
+      width: 35%;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .menu-section { width: 100%; }
+
+    .hidden { display: none; }
+
+    .menu h2 {
+      color: white;
+      border-bottom: 2px solid yellow;
+      padding-bottom: 5px;
+    }
+
+    .menu-item {
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .menu-item h3 {
+      color: aliceblue;
+      margin: 0;
+    }
+
+    .price {
+      color: yellow;
+      font-weight: bold;
+    }
+
+    .qr-container {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+      background: white;
+      border-radius: 8px;
+      text-align: center;
+      padding: 10px;
+  </style>
+</head>
+
+<body>
+
+  <div class="slideshow" id="slideshow">
+    
+  </div>
+
+  <div class="menu" id="menu">
+    <div id="menu-content"></div>
+    <div class="qr-container">
+      <div id="qrcode"></div>
+      <p>📱 Scan QR code</p>
+    </div>
+  </div>
+
+  <script>
+    let allItems = [];
+    let currentIndex = 0;
+
+    fetch('menu_cat.json')
+      .then(response => response.json())
+      .then(data => {
+        const menu = data.menu;
+        allItems = [...menu.hot, ...menu.cold];
+
+        renderMenu(menu);      
+        renderSlides(allItems); 
+        startSlideshow();       
+        startMenuRotation(); 
+        
+        const qrContainer = document.getElementById('qrcode');
+        qrContainer.innerHTML = ""; // prevent duplicates
+
+        new QRCode(qrContainer, {
+          text: 'https://umb.sodexomyway.com/en-us/locations/',
+          width: 120,
+          height: 120
+    });
+      });
+
+    function renderMenu(menu) {
+      const menuDiv = document.getElementById('menu-content');
+      menuDiv.innerHTML = `
+        <div id="hot-section" class="menu-section">
+          <h2>Hot Sandwiches</h2>
+          ${menu.hot.map(item => `
+            <div class="menu-item">
+              <h3>${item.name} <span class="price">$${item.price}</span></h3>
+              <p>${item.description}</p>
+            </div>`).join('')}
+        </div>
+        <div id="cold-section" class="menu-section hidden">
+          <h2>Cold Sandwiches</h2>
+          ${menu.cold.map(item => `
+            <div class="menu-item">
+              <h3>${item.name} <span class="price">$${item.price}</span></h3>
+              <p>${item.description}</p>
+            </div>`).join('')}
+        </div>
+        
+      `;
+    }
+
+    function renderSlides(items) {
+      const slideshow = document.getElementById('slideshow');
+      items.forEach((item, index) => {
+        const slide = document.createElement('div');
+        slide.classList.add('slide');
+        if (index === 0) slide.classList.add('active');
+        slide.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <h2>${item.name}</h2>
+          <p>${item.description}</p>
+          <p class="price">$${item.price}</p>
+        `;
+        slideshow.appendChild(slide);
+      });
+    }
+
+    function startMenuRotation() {
+      const hotSec = document.getElementById('hot-section');
+      const coldSec = document.getElementById('cold-section');
+
+      // Guard: exit early if elements weren't found
+      if (!hotSec || !coldSec) {
+        console.error('Menu sections not found!');
+        return;
+      }
+
+      let showHot = true;
+
+      setInterval(() => {
+        if (showHot) {
+          hotSec.classList.add('hidden');
+          coldSec.classList.remove('hidden');
+        } else {
+          hotSec.classList.remove('hidden');
+          coldSec.classList.add('hidden');
+        }
+        showHot = !showHot;
+      }, 6000);
+    }
+
+    function startSlideshow() {
+      const slides = document.querySelectorAll('.slide');
+      setInterval(() => {
+        slides[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % slides.length;
+        slides[currentIndex].classList.add('active');
+      }, 3000);
+    }
+
+  
+;
+  </script>
+
+</body>
+</html>

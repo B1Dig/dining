@@ -1,0 +1,87 @@
+[
+    {
+     "name": "Beacon_Cafe",
+     "image": "images/Beacon_Cafe.jpg",
+     "location": "Boston, MA",
+     "hours": {
+      "Monday": {"open": "11:00", "close": "22:00"},
+      "Tuesday": {"open": "11:00", "close": "22:00"},
+      "Wednesday": {"open": "11:00", "close": "22:00"},
+      "Thursday": {"open": "11:00", "close": "22:00"},
+      "Friday": {"open": "11:00", "close": "23:00"},
+      "Saturday": {"open": "12:00", "close": "23:00"},
+      "Sunday": {"open": "12:00", "close": "21:00"}
+     }
+    },
+    {
+      "name": "Campus_Foud_Court",
+      "image": "images/Campus_Foud_Court.jpg",
+      "location": "Boston, MA",
+      "hours": {
+        "Monday": {"open": "11:00", "close": "22:00"},
+        "Tuesday": {"open": "11:00", "close": "22:00"},
+        "Wednesday": {"open": "11:00", "close": "22:00"},
+        "Thursday": {"open": "11:00", "close": "22:00"},
+        "Friday": {"open": "11:00", "close": "23:00"},
+        "Saturday": {"open": "12:00", "close": "23:00"},
+        "Sunday": {"open": "12:00", "close": "21:00"}
+      }
+     },
+     {
+      "name": "Dunkin_Donuts",
+      "image": "images/Dunkin_Donuts.jpg",
+      "location": "Boston, MA",
+      "hours": {
+        "Monday": {"open": "11:00", "close": "22:00"},
+        "Tuesday": {"open": "11:00", "close": "22:00"},
+        "Wednesday": {"open": "11:00", "close": "22:00"},
+        "Thursday": {"open": "11:00", "close": "22:00"},
+        "Friday": {"open": "11:00", "close": "23:00"},
+        "Saturday": {"open": "12:00", "close": "23:00"},
+        "Sunday": {"open": "12:00", "close": "21:00"}
+      }
+     },
+     
+    {
+      "name": "Dining_Commons",
+      "image": "images/Dining_Commons.jpg",
+      "location": "Boston, MA",
+      "hours": {
+        "Monday": {"open": "11:00", "close": "22:00"},
+        "Tuesday": {"open": "11:00", "close": "22:00"},
+        "Wednesday": {"open": "11:00", "close": "22:00"},
+        "Thursday": {"open": "11:00", "close": "22:00"},
+        "Friday": {"open": "11:00", "close": "23:00"},
+        "Saturday": {"open": "12:00", "close": "23:00"},
+        "Sunday": {"open": "12:00", "close": "21:00"}
+      }
+    },
+    {
+      "name": "UMarket",
+      "image": "images/UMarket.jpg",
+      "location": "Revere, MA",
+      "hours": {
+        "Monday": {"open": "11:00", "close": "22:00"},
+        "Tuesday": {"open": "11:00", "close": "22:00"},
+        "Wednesday": {"open": "11:00", "close": "22:00"},
+        "Thursday": {"open": "11:00", "close": "22:00"},
+        "Friday": {"open": "11:00", "close": "23:00"},
+        "Saturday": {"open": "12:00", "close": "23:00"},
+        "Sunday": {"open": "12:00", "close": "21:00"}
+      }
+    },
+    {
+      "name": "Late_Night_Bites",
+      "image": "images/Late_Night_Bites.jpg",
+      "location": "Chelsea, MA",
+      "hours": {
+        "Monday": {"open": "11:00", "close": "22:00"},
+        "Tuesday": {"open": "11:00", "close": "22:00"},
+        "Wednesday": {"open": "11:00", "close": "22:00"},
+        "Thursday": {"open": "11:00", "close": "22:00"},
+        "Friday": {"open": "11:00", "close": "23:00"},
+        "Saturday": {"open": "12:00", "close": "23:00"},
+        "Sunday": {"open": "12:00", "close": "21:00"}
+      }
+    }
+  ]

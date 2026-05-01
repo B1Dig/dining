@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Landing Page</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+
+      background-image: url('images/background.avif');
+      background-size: cover;        /* fill screen */
+      background-position: center;   /* center image */
+      background-repeat: no-repeat;
+      background-attachment: fixed;  /* optional: parallax effect */
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      /*background: rgba(0, 0, 0, 0.5); /* adjust darkness */
+      z-index: -1;
+    }
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: inherit; /* Uses the same background image */
+      /*filter: blur(25px) saturate(2); /* Blur it and boost colors for the glow */
+      z-index: -1; /* Place it behind */
+      opacity: 0.7;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1100px;
+      margin: auto;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      /*transition: all 0.3s ease;*/
+      transition: transform 0.2s;
+    }
+    
+    
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 12px;
+    }
+
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .open-label {
+      color: green;
+      font-weight: bold;
+    }
+
+    .closed-label {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  
+
+<h2 style="text-align:center; padding: 20px;">Dining</h2>
+
+
+<div id="container" class="container"></div>
+<a href="?mode=menu">View menu</a>
+
+<div class="slideshow" id="slideshow">
+    
+</div>
+
+<div class="menu" id="menu">
+  <div id="menu-content"></div>
+  <div class="qr-container">
+    <div id="qrcode"></div>
+    <p>📱 Scan QR code</p>
+  </div>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  loadRestaurants();
+});
+
+async function loadMenu() {
+    const params = new URLSearchParams(window.location.search);
+    const contentArea = document.getElementById('content-area');
+
+    // Only fetch if the mode is 'menu'
+    if (params.get('mode') === 'menu') {
+        try {
+            // 1. Fetch the JSON file
+            const response = await fetch('menu.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const data = await response.json();
+            
+            // 2. Build the HTML string
+            let html = '<h1>Our Menu</h1>';
+            
+            for (const category in data.menu) {
+                html += `<h2>${category.toUpperCase()} Items</h2><div class="menu-grid">`;
+                
+                data.menu[category].forEach(item => {
+                    html += `
+                        <div class="menu-item">
+                            <img src="${item.image}" alt="${item.name}" width="150">
+                            <h3>${item.name} — $${item.price.toFixed(2)}</h3>
+                            <p>${item.description}</p>
+                        </div>`;
+                });
+                html += `</div>`;
+            }
+            
+            // 3. Inject into the page
+            contentArea.innerHTML = html;
+
+        } catch (error) {
+            console.error('Error fetching menu:', error);
+            contentArea.innerHTML = '<p>Sorry, the menu could not be loaded at this time.</p>';
+        }
+    }
+}
+
+// Initialize on page load
+window.addEventListener('load', loadMenu);
+
+async function loadRestaurants() {
+  try {
+    const response = await fetch('restaurants.json');
+    const restaurants = await response.json();
+
+    const container = document.getElementById('container');
+
+    // ✅ Safety check (prevents crash)
+    if (!container) {
+      console.error("Container not found!");
+      return;
+    }
+
+    const now = new Date();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const todayName = days[now.getDay()];
+    const currentTime =
+      now.getHours().toString().padStart(2, '0') + ":" +
+      now.getMinutes().toString().padStart(2, '0');
+
+    restaurants.forEach(res => {
+      const todayHours = res.hours[todayName];
+
+      let status = "Closed";
+      let statusClass = "closed-label";
+
+      if (todayHours.open !== "Closed") {
+        if (currentTime >= todayHours.open && currentTime <= todayHours.close) {
+          status = "Open Now";
+          statusClass = "open-label";
+        }
+      }
+
+      // ✅ Clean name (remove underscores)
+      const displayName = res.name.replaceAll("_", " ");
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      // ✅ Make card clickable → go to menu.html
+      card.onclick = () => {
+        window.location.href = `menu.html?name=${encodeURIComponent(res.name)}`;
+      };
+
+      card.innerHTML = `
+        <img src="${res.image}" alt="${displayName}"
+             onerror="this.src='images/default.jpg'">
+
+        <div class="card-content">
+          <div class="name">${displayName}</div>
+          <div class="meta">${res.location}</div>
+          <div class="meta ${statusClass}">${status}</div>
+          <div class="meta">Today: ${todayHours.open} - ${todayHours.close}</div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Error loading restaurants:", error);
+  }
+}
+</script>
+
+</body>
+</html>
